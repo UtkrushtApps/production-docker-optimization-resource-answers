@@ -1,0 +1,22 @@
+version: '3.8'
+services:
+  csv-processor:
+    build: .
+    image: csv-processor:latest
+    container_name: csv-processor
+    ports:
+      - "8080:8080"
+    restart: always
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8080/health"]
+      interval: 20s
+      timeout: 5s
+      retries: 3
+    deploy:
+      resources:
+        limits:
+          cpus: '0.50'
+          memory: 256M
+          pids: 100
+    environment:
+      - GOMEMLIMIT=200MiB
